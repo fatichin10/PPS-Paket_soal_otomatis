@@ -1,0 +1,149 @@
+<html lang="en">
+    <head>
+        <%- include('partials/head') %>
+    </head>
+
+    <%- include('partials/header') %>
+
+    <body style="background-color: f7f7fc;">
+        <div class="container">
+            <div class="container pt-3 text-xs font-bold">
+                <p style="color: #2c88d9;"><a href="/soal">Soal</a> / Tambah</p>
+            </div>
+            
+            <form id="postSoal">
+                <div class="row px-16">
+                    <div class="col-sm-9">
+                        <h3>Tambah Soal Baru</h3>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary float-right" style="width: 150px;" type="submit">
+                            Simpan <iconify-icon icon="bxs:save" style="color: white;" width="16" height="16"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="row mt-3 py-3" style="background-color: white; border-color: #c3cfd9; border-width: 3px">
+                    <div class="col-sm-12">
+                        <div class="row px-4">
+                            <div class="col-sm-5 form-group">
+                                <label for="id_topik" class="font-bold">Topik Soal :</label>
+                                <select class="form-control" name="id_topik" id="id_topik" required>
+                                    
+                                    <% if(topik.length) { %>
+
+                                        <% topik.forEach(function(t){ %>
+
+                                            <option value="<%= t.id %>"><%= t.nama %></option>
+
+                                        <% }); %>
+
+                                    <% } %>
+
+                                </select>
+                            </div>
+                            
+                            <div class="col-sm-1"></div>
+                            
+                            <div class="col-sm-5 form-group">
+                                <label for="tingkat_kesulitan" class="font-bold">Tingkat Kesulitan :</label>
+                                <select class="form-control" name="tingkat_kesulitan" id="tingkat_kesulitan" required>
+                                    <option value="1">Mudah</option>
+                                    <option value="2">Sedang</option>
+                                    <option value="3">Susah</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-12 form-group">
+                                <label for="pertanyaan" class="font-bold">Pertanyaan :</label>
+                                <textarea class="form-control" name="pertanyaan" id="pertanyaan" rows="3" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_a" class="font-bold">Pilihan A :</label>
+                                <textarea class="form-control" name="pilihan_a" id="pilihan_a" rows="1" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_b" class="font-bold">Pilihan B :</label>
+                                <textarea class="form-control" name="pilihan_b" id="pilihan_b" rows="1" required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_c" class="font-bold">Pilihan C :</label>
+                                <textarea class="form-control" name="pilihan_c" id="pilihan_c" rows="1"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_d" class="font-bold">Pilihan D :</label>
+                                <textarea class="form-control" name="pilihan_d" id="pilihan_d" rows="1"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-5 form-group">
+                                <label for="pilihan_benar" class="font-bold">Pilihan Benar :</label>
+                                <select class="form-control" name="pilihan_benar" id="pilihan_benar" required>
+                                    <option value="1">Pilihan A</option>
+                                    <option value="2">Pilihan B</option>
+                                    <option value="3">Pilihan C</option>
+                                    <option value="4">Pilihan D</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            const postSoal = document.getElementById('postSoal')
+
+            postSoal.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const url = `http://localhost:3000/api/soal`
+
+                let data = {
+                    pertanyaan: document.getElementById('pertanyaan').value,
+                    pilihan_a: document.getElementById('pilihan_a').value,
+                    pilihan_b: document.getElementById('pilihan_b').value,
+                    pilihan_c: document.getElementById('pilihan_c').value,
+                    pilihan_d: document.getElementById('pilihan_d').value,
+                    pilihan_benar: document.getElementById('pilihan_benar').value,
+                    id_topik: document.getElementById('id_topik').value,
+                    tingkat_kesulitan: document.getElementById('tingkat_kesulitan').value
+                };
+        
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.status === 201) {
+                        location.href = 'http://localhost:3000/soal'
+                    } else {
+                        return response.json()
+                    }
+                })
+                .then(json => {
+                    if (json && json.message) { alert(json.message) }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+    </body>
+</html>

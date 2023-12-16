@@ -1,0 +1,268 @@
+<html lang="en">
+    <head>
+        <%- include('partials/head') %>
+    </head>
+
+    <%- include('partials/header') %>
+
+    <body style="background-color: f7f7fc;">
+        <div class="container">
+            <div class="row pt-3 text-xs font-bold">
+                <div class="col-lg-12">
+                    <p style="color: #2c88d9;"><a href="/paketsoal">Paket Soal</a> / <%= paketsoal.id %></p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-lg-12">
+                    <h4>Edit Konfigurasi Paket Soal</h4>           
+                </div>
+            </div>
+            
+            <div class="row mb-10">
+                <div class="col-lg-12 pt-3" style="background-color: white; border-color: #c3cfd9;">
+                    <form id="putKonfigurasi">
+                        <input type="hidden" id="id_konfigurasi" name="id_konfigurasi" value="<%= paketsoal.id %>">
+                        <div class="row px-4">
+                            <div class="col-lg-7 form-group">
+                                <label for="nama" class="font-bold">Nama Paket Soal :</label>
+                                <input type="text" class="form-control" name="nama" id="nama" value="<%= paketsoal.nama %>" required>
+                            </div>
+                            
+                            <div class="col-lg-3 form-group">
+                                <label for="jumlah_soal" class="font-bold">Jumlah Soal :</label>
+                                <input type="number" class="form-control" name="jumlah_soal" id="jumlah_soal" value="<%= paketsoal.jumlah_soal %>" required>
+                            </div>
+                            
+                            <div class="col-lg-2">
+                                <button class="btn btn-block btn-outline-primary float-right mt-8" type="submit">
+                                    Simpan <iconify-icon icon="bxs:save" style="color: #2c88d9;" width="16" height="16"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <form id="postTopikUjian">
+                <div class="row">
+                    <div class="col-lg-3 form-group">
+                        <label for="id_topik" class="font-bold">Topik Ujian :</label>
+                        <select class="form-control" name="id_topik" id="id_topik" required>
+                            
+                            <% if(topik.length) { %>
+                            
+                                <% topik.forEach(function(t){ %>
+
+                                    <option value="<%= t.id %>"><%= t.nama %></option>
+                                    
+                                <% }); %>
+
+                            <% } %>
+
+                        </select>
+                    </div>
+                    
+                    <div class="col-lg-2 form-group">
+                        <label for="persentase_topik" class="font-bold">Persentase Topik :</label>
+                        <input type="number" class="form-control" name="persentase_topik" id="persentase_topik" min="0" max="1" step="0.05" placeholder="0.00 - 1.00" required>
+                    </div>
+                    
+                    <div class="col-lg-2 form-group">
+                        <label for="persentase_mudah" class="font-bold">% Soal Mudah :</label>
+                        <input type="number" class="form-control" name="persentase_mudah" id="persentase_mudah" min="0" max="1" step="0.05" placeholder="0.00 - 1.00" required>
+                    </div>
+                    
+                    <div class="col-lg-2 form-group">
+                        <label for="persentase_sedang" class="font-bold">% Soal Sedang :</label>
+                        <input type="number" class="form-control" name="persentase_sedang" id="persentase_sedang" min="0" max="1" step="0.05" placeholder="0.00 - 1.00" required>
+                    </div>
+                    
+                    <div class="col-lg-2 form-group">
+                        <label for="persentase_sulit" class="font-bold">% Soal Sulit :</label>
+                        <input type="number" class="form-control" name="persentase_sulit" id="persentase_sulit" min="0" max="1" step="0.05" placeholder="0.00 - 1.00" required>
+                    </div>
+                    
+                    <div class="col-lg-1 pt-8 mb-3">
+                        <input type="hidden" name="id_paketsoal" id="id_paketsoal" value="<%= paketsoal.id %>">
+                        <button class="btn btn-block btn-primary float-right" type="submit">
+                            <iconify-icon icon="gg:add" style="color: white;" width="20" height="20"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="row">
+                <div class="col-sm-12" style="background-color: #f2f5f7; border-color: #c3cfd9; border-width: 3px; height: 250px; margin-top: -20px;">
+                    <div class="h-100 overflow-auto px-2 pt-2">
+
+                        <% if(topikujian.length) { %>
+                        
+                            <% topikujian.forEach(function(tu){ %>
+
+                                <div class="input-group">
+                                    <div class="form-control" style="width: 200px;"><strong><%= tu.nama %></strong></div>
+                                    
+                                    <div class="form-control "><strong><%= tu.persentase_topik %></strong></div>
+                                    
+                                    <div class="form-control"><strong><%= tu.persentase_mudah %></strong></div>
+                                    
+                                    <div class="form-control"><strong><%= tu.persentase_sedang %></strong></div>
+                                    
+                                    <div class="form-control"><strong><%= tu.persentase_sulit %></strong></div>
+                                    
+                                    <form class="input-group-append mb-1">
+                                        <input type="hidden" class="id_topikujian" name="id_topikujian" value="<%= tu.id %>">
+                                        <button class="btn btn-danger" type="submit">
+                                            <iconify-icon icon="mdi:cancel-bold" style="color: white;" width="24" height="24"></iconify-icon>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            <% }); %>
+
+                        <% } %>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <form id="postPaketSoal">
+                    <input type="hidden" id="paketsoal_id" name="paketsoal_id" value="<%= paketsoal.id %>">
+                    <button class="btn btn-primary" style="width: 240px;" type="submit">
+                        <span class="font-weight-bold">Generate Soal Ujian</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <script>
+            const putKonfigurasi = document.getElementById('putKonfigurasi')
+
+            putKonfigurasi.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const id = document.getElementById('id_konfigurasi').value
+                const url = `http://localhost:3000/api/konfigurasi/${id}`
+
+                let data = {
+                    nama: document.getElementById('nama').value,
+                    jumlah_soal: document.getElementById('jumlah_soal').value
+                };
+        
+                fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        location.reload()
+                    } else {
+                        return response.json()
+                    }
+                })
+                .then(json => {
+                    if (json && json.message) { alert(json.message) }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            const postTopikUjian = document.getElementById('postTopikUjian')
+            const deleteTopikUjianForms = document.querySelectorAll('.input-group-append.mb-1')
+
+            postTopikUjian.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const url = `http://localhost:3000/api/topikujian`
+
+                let data = {
+                    id_paketsoal: document.getElementById('id_paketsoal').value,
+                    id_topik: document.getElementById('id_topik').value,
+                    persentase_topik: document.getElementById('persentase_topik').value,
+                    persentase_mudah: document.getElementById('persentase_mudah').value,
+                    persentase_sedang: document.getElementById('persentase_sedang').value,
+                    persentase_sulit: document.getElementById('persentase_sulit').value
+                };
+        
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.status === 201) {
+                        location.reload()
+                    } else {
+                        return response.json()
+                    }
+                })
+                .then(json => {
+                    if (json && json.message) { alert(json.message) }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            deleteTopikUjianForms.forEach(function(form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const id = form.querySelector('.id_topikujian').value;
+                    const url = `http://localhost:3000/api/topikujian/${id}`
+            
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            location.reload()
+                        } else {
+                            return response.json()
+                        }
+                    })
+                    .then(json => {
+                        if (json && json.message) { alert(json.message) }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+            });
+
+            const postPaketSoal = document.getElementById('postPaketSoal')
+            
+            postPaketSoal.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const id = document.getElementById('paketsoal_id').value
+                const url = `http://localhost:3000/api/paketsoal/${id}`
+        
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        location.href = `http://localhost:3000/paketsoal/${id}`
+                    } else {
+                        return response.json()
+                    }
+                })
+                .then(json => {
+                    if (json && json.message) { alert(json.message) }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+    </body>
+</html>

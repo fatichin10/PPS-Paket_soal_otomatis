@@ -1,0 +1,214 @@
+<html lang="en">
+    <head>
+        <%- include('partials/head') %>
+    </head>
+
+    <%- include('partials/header') %>
+
+    <body style="background-color: f7f7fc;">
+        <div class="container-fluid">
+            <div class="container pt-3 text-xs font-bold">
+                <p style="color: #2c88d9;"><a href="/soal">Soal</a> / </p>
+            </div>
+            <div class="row px-16">
+                <div class="col-lg-4">
+                    <div style="background-color: #f2f5f7; border-color: #c3cfd9; border-width: 3px; height: 280px;">
+                        <form id="postTopik">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="nama" name="nama" placeholder="Topik Soal Baru ..." required>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <iconify-icon icon="gg:add" style="color: white;" width="24" height="24"></iconify-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="h-75 overflow-auto px-2">
+
+                            <% if(topik.length) { %>
+
+                                <% topik.forEach(function(t){ %>
+
+                                    <form id="deleteTopik" class="input-group my-0">
+                                        <input type="hidden" class="id_topik" name="id_topik" value="<%= t.id %>">
+                                        <div class="form-control"><strong><%= t.nama %></strong></div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-danger" type="submit">
+                                                <iconify-icon icon="mdi:cancel-bold" style="color: white;" width="24" height="24"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                <% }); %>
+
+                            <% } %>
+
+                        </div>
+                    </div>
+                    <div class="pb-6"></div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <form method="#" action="">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Cari soal">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">
+                                            <iconify-icon icon="gg:search" style="color: #c3cfd9;"></iconify-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="/soal/tambah" class="btn btn-primary float-right">
+                                Tambah Soal <iconify-icon icon="gg:add" style="color: white;"></iconify-icon>
+                            </a>
+                        </div>
+                    </div>
+
+                    <% if(soal.length) { %>
+
+                        <% soal.forEach(function(s){ %>
+
+                            <div style="background-color: white; border-color: #c3cfd9; border-width: 3px" class="mb-2">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h6 class="text-muted px-3 pt-2"><%= s.pertanyaan %></h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-7 d-flex align-items-center">
+                                        <div class="px-3 pt-2">
+
+                                            <% if (s.tingkat_kesulitan == 1) { %>
+                                                <span class="badge badge-pill badge-success">Mudah</span>
+                                            <% } else if (s.tingkat_kesulitan == 2) { %>
+                                                <span class="badge badge-pill badge-warning">Sedang</span>
+                                            <% } else if (s.tingkat_kesulitan == 3) { %>
+                                                <span class="badge badge-pill badge-danger">Susah</span>
+                                            <% } %>
+
+                                            <span class="badge badge-pill badge-secondary"><%= s.nama %></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="float-right px-3">
+                                            <form class="deleteSoal" style="display:inline-block;">
+                                                <input type="hidden" class="id_soal" name="id_soal" value="<%= s.id %>">
+                                                <button class="btn btn-outline-danger btn-sm" style="width: 90px;" type="submit">
+                                                    Hapus <iconify-icon icon="mdi:delete" style="color: #d3455b;"></iconify-icon>
+                                                </button>
+                                            </form>
+                                            <a href="/soal/<%= s.id %>" class="btn btn-outline-primary btn-sm" style="width: 90px;">
+                                                Edit <iconify-icon icon="mdi:edit" style="color: #2c88d9;"></iconify-icon>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <% }); %>
+
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const postTopik = document.getElementById('postTopik')
+            const deleteTopikForms = document.querySelectorAll('.input-group.my-0')
+
+            postTopik.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const url = `http://localhost:3000/api/topik`
+
+                let data = {
+                    nama: document.getElementById('nama').value
+                };
+        
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.status === 201) {
+                        location.reload()
+                    } else {
+                        return response.json()
+                    }
+                })
+                .then(json => {
+                    if (json && json.message) { alert(json.message) }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            deleteTopikForms.forEach(function(form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const id = form.querySelector('.id_topik').value;
+                    const url = `http://localhost:3000/api/topik/${id}`
+            
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            location.reload()
+                        } else {
+                            return response.json()
+                        }
+                    })
+                    .then(json => {
+                        if (json && json.message) { alert(json.message) }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+            });
+
+            const deleteSoalForms = document.querySelectorAll('.deleteSoal')
+        
+            deleteSoalForms.forEach(function(form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const id = form.querySelector('.id_soal').value;
+                    const url = `http://localhost:3000/api/soal/${id}`;
+            
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            location.reload()
+                        } else {
+                            return response.json()
+                        }
+                    })
+                    .then(json => {
+                        if (json && json.message) { alert(json.message) }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                });
+            })
+        </script>
+    </body>
+</html>

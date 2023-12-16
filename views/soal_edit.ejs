@@ -1,0 +1,192 @@
+<html lang="en">
+    <head>
+        <%- include('partials/head') %>
+    </head>
+
+    <%- include('partials/header') %>
+
+    <body style="background-color: f7f7fc;">
+        <div class="container">
+            <div class="container pt-3 text-xs font-bold">
+                <p style="color: #2c88d9;"><a href="/soal">Soal</a> / <%= soal.id %> </p>
+            </div>
+            
+            <form id="putSoal">
+                <input type="hidden" id="id_soal" name="id_soal" value="<%= soal.id %>">
+                <div class="row px-16">
+                    <div class="col-sm-9">
+                        <h3>Edit Soal</h3>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary float-right" style="width: 150px;" type="submit">
+                            Simpan <iconify-icon icon="bxs:save" style="color: white;" width="16" height="16"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="row mt-3 py-3" style="background-color: white; border-color: #c3cfd9; border-width: 3px">
+                    <div class="col-sm-12">
+                        <div class="row px-4">
+                            <div class="col-sm-5 form-group">
+                                <label for="id_topik" class="font-bold">Topik Soal :</label>
+                                <select class="form-control" name="id_topik" id="id_topik" required>
+                                    
+                                    <% if(topik.length) { %>
+                                    
+                                        <% topik.forEach(function(t) { %>
+                                            
+                                            <% if (t.id == soal.id_topik) { %>
+                                                <option selected value="<%= t.id %>"><%= t.nama %></option>
+                                            <% } else { %>
+                                                <option value="<%= t.id %>"><%= t.nama %></option>
+                                            <% } %>
+
+                                        <% }); %>
+
+                                    <% } %>
+
+                                </select>
+                            </div>
+                            
+                            <div class="col-sm-1"></div>
+                            
+                            <div class="col-sm-5 form-group">
+                                <label for="tingkat_kesulitan" class="font-bold">Tingkat Kesulitan :</label>
+                                <select class="form-control" name="tingkat_kesulitan" id="tingkat_kesulitan" required>
+                                    
+                                    <% if (soal.tingkat_kesulitan == 1) { %>
+                                        <option selected value="1">Mudah</option>
+                                    <% } else { %>
+                                        <option value="1">Mudah</option>
+                                    <% } %>
+
+                                    <% if (soal.tingkat_kesulitan == 2) { %>
+                                        <option selected value="2">Sedang</option>
+                                    <% } else { %>
+                                        <option value="2">Sedang</option>
+                                    <% } %>
+
+                                    <% if (soal.tingkat_kesulitan == 3) { %>
+                                        <option selected value="3">Susah</option>
+                                    <% } else { %>
+                                        <option value="3">Susah</option>
+                                    <% } %>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-12 form-group">
+                                <label for="pertanyaan" class="font-bold">Pertanyaan :</label>
+                                <textarea class="form-control" name="pertanyaan" id="pertanyaan" rows="3" required><%= soal.pertanyaan %></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_a" class="font-bold">Pilihan A :</label>
+                                <textarea class="form-control" name="pilihan_a" id="pilihan_a" rows="1" required><%= soal.pilihan_a %></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_b" class="font-bold">Pilihan B :</label>
+                                <textarea class="form-control" name="pilihan_b" id="pilihan_b" rows="1" required><%= soal.pilihan_b %></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_c" class="font-bold">Pilihan C :</label>
+                                <textarea class="form-control" name="pilihan_c" id="pilihan_c" rows="1"><%= soal.pilihan_c %></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-9 form-group">
+                                <label for="pilihan_d" class="font-bold">Pilihan D :</label>
+                                <textarea class="form-control" name="pilihan_d" id="pilihan_d" rows="1"><%= soal.pilihan_d %></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="row px-4">
+                            <div class="col-sm-5 form-group">
+                                <label for="pilihan_benar" class="font-bold">Pilihan Benar :</label>
+                                <select class="form-control" name="pilihan_benar" id="pilihan_benar" required>
+                                    
+                                    <% if (soal.pilihan_benar == 1) { %>
+                                        <option selected value="1">Pilihan A</option>
+                                    <% } else { %>
+                                        <option value="1">Pilihan A</option>
+                                    <% } %>
+                                    
+                                    <% if (soal.pilihan_benar == 2) { %>
+                                        <option selected value="2">Pilihan B</option>
+                                    <% } else { %>
+                                        <option value="2">Pilihan B</option>
+                                    <% } %>
+                                    
+                                    <% if (soal.pilihan_benar == 3) { %>
+                                        <option selected value="3">Pilihan C</option>
+                                    <% } else { %>
+                                        <option value="3">Pilihan C</option>
+                                    <% } %>
+                                    
+                                    <% if (soal.pilihan_benar == 4) { %>
+                                        <option selected value="4">Pilihan D</option>
+                                    <% } else { %>
+                                        <option value="4">Pilihan D</option>
+                                    <% } %>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script>
+            const putSoal = document.getElementById('putSoal')
+
+            putSoal.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const id = document.getElementById('id_soal').value
+                const url = `http://localhost:3000/api/soal/${id}`
+
+                let data = {
+                    pertanyaan: document.getElementById('pertanyaan').value,
+                    pilihan_a: document.getElementById('pilihan_a').value,
+                    pilihan_b: document.getElementById('pilihan_b').value,
+                    pilihan_c: document.getElementById('pilihan_c').value,
+                    pilihan_d: document.getElementById('pilihan_d').value,
+                    pilihan_benar: document.getElementById('pilihan_benar').value,
+                    id_topik: document.getElementById('id_topik').value,
+                    tingkat_kesulitan: document.getElementById('tingkat_kesulitan').value
+                };
+        
+                fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        location.reload()
+                    } else {
+                        return response.json()
+                    }
+                })
+                .then(json => {
+                    if (json && json.message) { alert(json.message) }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+    </body>
+</html>

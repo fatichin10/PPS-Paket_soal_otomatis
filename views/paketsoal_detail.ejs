@@ -1,0 +1,71 @@
+<html lang="en">
+    <head>
+        <%- include('partials/head') %>
+    </head>
+
+    <%- include('partials/header') %>
+
+    <body style="background-color: f7f7fc;">
+        <div class="container">
+            <div class="row pt-3 text-xs font-bold">
+                <div class="col-lg-12">
+                    <p style="color: #2c88d9;"><a href="/paketsoal">Paket Soal</a> / <%= paketsoal.id %></p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-lg-8">
+                    <h4>Paket Soal</h4>           
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="mb-3 pl-4 py-2" style="background-color: white; border-color: #c3cfd9; border-width: 3px;">
+                        <span class="font-bold text-xl px-4"><%= paketsoal.nama %></span>
+                    </div>
+                </div>
+                
+                <div class="col-sm-5">
+                    <div class="mb-3 pl-4 py-2" style="background-color: white; border-color: #c3cfd9; border-width: 3px;">
+                        <span class="font-bold text-lg px-4">Kode Paket Soal : </span><span class="text-lg ml-4"><%= paketsoal.kode_paketsoal %></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row px-2">
+                <div class="col-lg-12">
+
+                    <% if(soalujian.length) { %>
+
+                        <% soalujian.forEach(function(su){ %>
+
+                            <div class="mb-2 py-3" style="background-color: white; border-color: #c3cfd9; border-width: 3px;">
+                                <div class="row px-12">
+                                    <div class="col-lg-12 mb-2">
+                                        <span class="font-bold text-base"><%= su.pertanyaan %></span>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span class="font-bold text-base">Pilihan A : </span><span class="text-base ml-4"><%= su.pilihan_a %></span>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span class="font-bold text-base">Pilihan B : </span><span class="text-base ml-4"><%= su.pilihan_b %></span>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span class="font-bold text-base">Pilihan C : </span><span class="text-base ml-4"><%= su.pilihan_c %></span>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span class="font-bold text-base">Pilihan D : </span><span class="text-base ml-4"><%= su.pilihan_d %></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <% }); %>
+
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
